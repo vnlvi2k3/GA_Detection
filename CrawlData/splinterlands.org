@@ -1,0 +1,49 @@
+#+TITLE: Splinterlands
+
+* Social Media
+** Comprehensive stats account
+https://peakd.com/@jacekw
+* Resources
+** DEC (Dark Energy crystals)
+https://docs.splinterlands.com/dark-energy-crystals
+Token that is rewarded for playing the game. It is used mainly to buy or rent cards from the market and it can be exchanged for other cryptocurrencies.
+*** DEC Supply
+- DEC supply page is down
+DEC is issued in quantity of 1 million each day and distributed as a revard to winning players according to rank and cards used in battles (golden and beta cards give +20% to DEC capture ).
+*** DEC capture rate
+https://docs.splinterlands.com/dark-energy-crystals/earning-dec/energy-capture-rate-ecr
+Maximum amount of DEC gained from wins is decreased with every battle by ~1%.
+DEC capture rate slowly regenerates for ~1% per hour.
+** Credits
+** SPS
+https://sps.splinterlands.com/
+Splintershards (SPS) is the official governance token for Splinterlands. The purpose of the token is to empower players to participate in the evolution of the game. Over time, it will become possible for SPS owners to influence the direction of the game in a wide variety of ways! From creating proposals to voting on gameplay options to reviewing new third party applications that support the ecosystem, SPS gives you a voice to help shape the future of gaming!
+* Markets
+** MonsterMarket
+https://monstermarket.io/
+** PeakMonsters
+https://peakmonsters.com/
+* API
+https://github.com/kiokizz/Splinterlands-API
+** Hive engine API
+https://hiveengine.readthedocs.io/en/latest/hiveengine.api.html
+** Battle example
+https://api2.splinterlands.com/battle/result?id=132b280e3f7db63fe46ec69c8d1847fdb780e743&v=1627555516099&token=40MJO7N7DS&username=abacu5
+https://splinterlands.com?p=battle&id=132b280e3f7db63fe46ec69c8d1847fdb780e743&ref=abacu5
+* Internal workings
+** Randomness
+Described in FAQ
+*** Random string generation for transaction IDs in client
+https://github.com/steem-monsters/splinterlands-js/blob/88b2b68bd399aa168c211668e6c8cb68eb3ec25c/src/utils.js#L64
+*** Pack generator
+https://splinterlands.com/?p=pack_verifier&qty=&trx=&block=&bid=&pid=&edition=&potlegqty=&potalcqty=
+*** Pack drop verifier code
+./verifier.js
+* Splinterlands bot
+https://github.com/alfficcadenti/splinterlands-bot
+* Paper ideas
+** Market research
+** Card suggestion
+** Fraud/Rigged battles detection?
+*** Bot detection
+We have game data + social data

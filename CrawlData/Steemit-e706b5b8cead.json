@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "steemit-307308",
+  "private_key_id": "e706b5b8ceada0a930b1f23318a9ffd398f3f864",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCmnWO9obXDDtt4\nv1TUy7dUTTYITaKMHRnkpkQT1RQOcreTpEAU8rt/Tvt+2PiDqDekGe507Lz65cVq\nlaTjEKcEf/Fom30WX38dTPB+T33vy9WlXkdyharVcZFAeMn8+KRmPpXyeN+Om+Wp\nB+KRgh9lEYVxPnD7hG+HGyrV4yfmMrfQGzcnYHQMu4dmdnvEyw5GG8wKSGhqT7Y2\nppnosUw6kfGtSCSmJSJYuyuyAN8Uncj0C5ViAWy7RnZOM24yTVcXfPFfXt9Z2nYu\nWZvx3peTI5t+Xiz1sFV0199BKrkxihGfnKUIU+Fz8K82czVx3jQHWH8bHrbvtelX\nUQiQagfJAgMBAAECggEALW39y6+DnXd4HUDiMxGG39wbrwDoINcwf7lcF6JCUTwz\nVPT0qiGTQT+6cFhdzpw3661MaSJB1xF+ljTOXEFmoOH344N+BHMueEFJ08798jv8\neZYu2gmbTo6kQdWNkcYEIYLQJOiTYFGeucuWGgHGaKrx3TJe4R23wTmFoQNKlkfu\nRY+A6OxlpGA/gWm78h2VRxNWAyePxPeXn7yZEkAMPutZCtHHqkKnSw6/sF8Xsy6M\nmJArzkjRkruqY77j1mhEEIFdABzQdrt6TEUMHr2Fs4WY0Z1S6QLqQYWZoVXB3K4L\nymwvgd7MRm/TaqSamS+osAGi1hAvH6IqBPftg0xmzwKBgQDWVfGzV0s54/O44MgE\nF9rvczohKYUydvOzxthIkfKckIZ7HXeI1M6GuunI389ZVe37d+KXrcGmPxchLzPq\n9fgbkpyake96+1uvFfT6TnGZ77D3NoKuK9JKHSZh6zkYU1sr7Ke5TuwA9QTiXNfC\nz9G2lgzxhiIU+xjnBxCzNtJ7nwKBgQDHALHKzonZBkcWqoKstn447kdNeqx9m/q7\n7RsZ5FPvd0dpQ8ge5MgKgv3hGpJsThKtZm5H8UicAewy3mIpL08dnAVqNvThpmuQ\n5Wp6X6WhOjfr3023gC8C8shNPJ/GAlnIZxQ1wOTZNSXAVi3tth+EURQKroIrqupy\nTkZqQ0fDlwKBgH6npL8se2iHGnOKaMd6bUaIGbaU+X+7qQD4JMClde8svDsuS3+Q\n+UXGV/X6w2VwEMRDsKOe6srZh0p1wUE7/lQUy/PO/uv2ctRArlXnWtvzNuiuzoQr\nowVmulKslD2arEqFewtW5sEeCLfW0yzsb2lsu9NRRvyM8Mc8dpLgd3rTAoGAW95/\nNaA51R3nzZfz8aXiCYg/FI6weOB8VSt12nMlKKTJK9hl15VIoEmuyK/KrwMv7ise\neEn0ekkM8MLnUBoODR5NBabPUCjS+bZffJURUqgczuBs8WzUxyirvbRiEjhdmH21\nv8cIHxpBDlT6qQXt8Ni5RuEfKOejiheGvGHJDIsCgYEAx+5M/jI5pCnf/rzYrkwB\nVECpsI35hMZ+ILxKzmWt50J0V4ci9F8vzZb5qgiyrxtxPCe0c4TmHtWYfKPkI7T6\n8xxlFxj9awkCER3VZoMzK3zJAVVFHYM5KYjicmbFncIZWaKHvEi15nWHBVzIdFMl\nzT0G0BQOtaXTDH4Y8S4E9cs=\n-----END PRIVATE KEY-----\n",
+  "client_email": "steemit@steemit-307308.iam.gserviceaccount.com",
+  "client_id": "105649034809391775000",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/steemit%40steemit-307308.iam.gserviceaccount.com"
+}

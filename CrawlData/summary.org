@@ -1,0 +1,480 @@
+#+TITLE: Summary
+
+* Operation types
+- pow2_operation
+- escrow_approve_operation
+- escrow_release_operation
+- decline_voting_rights_operation
+- create_claimed_account_operation
+- account_update2_operation
+- account_witness_vote_operation
+- change_recovery_account_operation
+- escrow_dispute_operation
+- limit_order_create2_operation
+- limit_order_cancel_operation
+- vote_operation
+- comment_options_operation
+- transfer_to_savings_operation
+- transfer_from_savings_operation
+- custom_operation
+- set_withdraw_vesting_route_operation
+- delegate_vesting_shares_operation
+- account_create_operation
+- comment_operation
+- transfer_to_vesting_operation
+- remove_proposal_operation
+- witness_update_operation
+- witness_set_properties_operation
+- escrow_transfer_operation
+- account_create_with_delegation_operation
+- claim_reward_balance_operation
+- account_witness_proxy_operation
+- pow_operation
+- claim_account_operation
+- feed_publish_operation
+- withdraw_vesting_operation
+- convert_operation
+- request_account_recovery_operation
+- update_proposal_votes_operation
+- delete_comment_operation
+- transfer_operation
+- recover_account_operation
+- account_update_operation
+- limit_order_create_operation
+- update_proposal_operation
+- create_proposal_operation
+- cancel_transfer_from_savings_operation
+- custom_json_operation
+* Stats about users
+** Select created users that aren't communities
+#+BEGIN_SRC sql
+    SELECT o
+    FROM `steemit-307308.hive_zurich.block_data_42000001_43245905_48`
+    CROSS JOIN UNNEST(transactions) as t
+    CROSS JOIN UNNEST(t.operations) as o
+    WHERE o.type = "account_create_operation" AND REGEXP_CONTAINS(o.value.new_account_name, "hive-")
+#+END_SRC
+* Stats about posts
+Block timestamp is post date
+** Get Posts
+#+BEGIN_SRC sql
+    SELECT o.value
+    FROM `steemit-307308.hive_zurich.block_data_22000001_23435715_48`
+    CROSS JOIN UNNEST(transactions) as t
+    CROSS JOIN UNNEST(t.operations) as o
+    WHERE o.value.body IS NOT NULL AND o.value.title != "" AND o.value.title IS NOT NULL
+#+END_SRC
+Is only title not empty string enough?
+*** Posts of the community
+If posts parent_permlink is for example hive-167922, then it is a post of a community
+#+BEGIN_SRC sql
+    SELECT o.value
+    FROM `steemit-307308.hive_zurich.block_data_48000001_50000000_33`
+    CROSS JOIN UNNEST(transactions) as t
+    CROSS JOIN UNNEST(t.operations) as o
+    WHERE o.type = "comment_operation"
+        AND o.value.parent_permlink = "hive-167922"
+#+END_SRC
+*** Tags
+value.json_metadata_dict.tags_list_str
+* Stats about comments
+json_metadata_dict.tags_list_str - can have community as a tag, meaning comment is from the community
+* Stats about followers
+* Stats about votes
+** Min/Max
+#+BEGIN_SRC sql
+    SELECT MIN(o.value.weight), MAX(o.value.weight)
+    FROM `steemit-307308.hive_zurich.block_data_*`
+    CROSS JOIN UNNEST(transactions) as t
+    CROSS JOIN UNNEST(t.operations) as o
+    WHERE o.type = "vote_operation"
+#+END_SRC
+- min -10000
+- max 10000
+* Custom json operations
+** Json operation type in files
+#+BEGIN_SRC sql
+    SELECT COUNT(id), _TABLE_SUFFIX AS suffix
+    FROM `steemit-307308.hive_zurich.block_data_*`
+    CROSS JOIN UNNEST(transactions) as t
+    CROSS JOIN UNNEST(t.operations) as o
+    WHERE o.type = "custom_json_operation" AND o.value.id = "community"
+    GROUP BY _TABLE_SUFFIX
+#+END_SRC
+** follow
+*** json_list_dict.value_str = follow
+*** json_list_dict.value_str = reblog
+value_dict.account_str - who reblogged
+value_dict.author_str - post author
+value_dict.permlink_str - reblogged post
+*** json_list_dict.value_str = null
+Users following their own posts?
+Watch for replies?
+*** json_list_dict.value_str = unfollow
+Not that many
+*** Follow type
+json_list_dict.value_dict.what_list_str
+if blog then it's a follow on hive.blog
+**** what = blog
+blog follow
+if before the fork it won't be counted
+**** what = blacklist
+Add to blacklist
+**** what = unblacklist
+**** what = follow_blacklist
+**** what = unfollow_blacklist
+**** what = reset_follow_blacklist
+**** what = reset_blacklist
+**** what = follow_blacklists
+???
+**** what = unfollow_blacklists
+???
+**** what = ignore
+Add to ignore, the same as mute
+**** what = follow_muted
+**** what = unfollow_muted
+**** what = reset_mute_list
+**** what = follow_muted_list
+**** what = unfollow_muted_list
+**** what = reset_follow_muted_list
+**** what = reset_all_lists
+** follow_wobject
+*** follow
+** wobj_rating
+https://hive.blog/@wiv01
+Object reference protocol and food reviews?
+** smartvote
+Some curation feature that died out?
+** waivio_guest_follow
+*** json_list_dict.value_str = follow
+** unfollow
+has the same what as follow
+*** json_list_dict.value_str = unfollow
+*** json_list_dict.value_str = follow
+** action
+*** json_list_dict.value_str = action
+Event ticketing on gopassage
+Seems to be a joke?
+** record
+gopassage events
+** community
+Communities are users that are given a title with setUserTitle
+Community names start with hive-
+*** required_posting_auths - who did action
+*** subscribe
+**** value_dict.community_str
+*** unsubscribe
+**** value_dict.community_str
+*** setRole
+*** pinPost
+*** unpinPost
+*** updateProps
+**** value_dict.props_dict
+**** value_dict.community_str
+*** mutePost
+*** setUserTitle
+**** value_dict.title_str
+*** flagPost
+*** unmutePost
+*** null
+*** adApprove
+*** adSubmit
+** drugwars
+*** nextcolony
+*** dw-heist
+*** dw-upgrade
+*** dw-unit
+*** dcity
+*** dw-attack
+*** dw
+*** nextcolony.test
+*** dw-referral
+*** drugwars-staging
+** notify
+*** setLastRead
+value_dict.date_str
+** sensorlog
+Kombucha brewing on blockchain
+https://hive.blog/kinoko/@kinoko/hey-hive-we-are-kinoko-and-we-love-you
+t = temperature celsius
+h = humidity in %
+p = pressure in millibar
+** metadata
+bot votes by https://hive.blog/@portalvotes
+** beacon_custom_json
+peakd ping api https://hive.blog/@peak.beacon
+** commentcoin
+Engagement revard system https://commentcoin.net/
+*** transfer
+** registro
+??? some transactions https://hive.blog/@precioso
+** delegations
+repost account with delegated SP https://hive.blog/@pressa
+** payouts
+Delegeated SP payout
+** dlux_report
+** dlux_test_report
+Some VR social media that uses HIVE blockchain https://www.dlux.io/docs/
+** 3speak-*
+Video sharing platform on blockchain
+** active_user
+steemhunt action https://steemhunt.com/@steemmohsin786/adafruit-ethernet-featherwing-wireless-is-wonderful-but-sometimes-you-want-the-strong
+** sh_active_user
+** hunt_active_user
+** scot_*
+Dual chain implementation by bot https://hive.blog/scotbot/@eonwarped/scot-tribes-on-hive
+*** scot_payout_beneficiaries
+*** scot_set_vote
+*** scot_create_claim
+*** scot_claim_token
+*** scotauto
+*** scot_claim
+** esteem_*
+steemit mobile app
+*** esteem_boost
+*** esteem_point_transfer
+*** esteem_promote
+** vote
+Steemhunt upvote
+*** vote_append_object
+*** vote
+** GameSeed
+gambling https://hive.blog/@kryptogames
+** serverSeed
+*** ServerSeedOperation
+** cardSeed
+*** ServerSeedOperation
+** cardSeedHash
+*** ServerSeedHashOperation
+** diceHash
+** diceSeed
+** addUsersToBlackList
+not that many operations
+*** json_dict.names_list_str
+** removeUsersFromBlackList
+** generate_heroes
+Idle game https://hive.blog/@holybread
+** moonsteem
+Gambling
+** moonsteem_v2_game_info
+** moonsteem_game_info
+** reject_referral_license
+Wavio test
+** institutionList
+** ongame-fight
+** hivemessage
+*** messageRoom
+** boost-hive
+** hive-sm_price_feed
+** ssc-*
+Smart contracts on hive blockchain via https://hive-engine.com/
+*** ssc-mainnet-hive
+*** ssc-testnet1
+*** ssc-claimdrop
+*** ssc-testnet-reaz
+*** ssc-testNettheghost1980
+** actfit
+** rabona
+Football club management game https://rabona.io/
+** Dominuus
+War game on the blockchain
+** initiate_sale
+Steemmonsters sales
+** nft*
+https://nftshowroom.com/faq
+** pm_*
+peakmonsters - marketplace for Splinterlands https://peakmonsters.com/
+*** pm_create_bid
+*** pm_accept_contract
+*** pm_update_bid
+*** pm_new_delegation
+*** pm_cancel_bid
+*** pm_credit_purchase
+*** pm_break_contract
+*** pm_cancel_delegation
+*** pm_stop_delegation
+*** pm_update_settings
+** cbm_*
+Cryptobrewmasters https://www.cryptobrewmaster.io/home
+*** cbm__building__rent
+*** cbm__balance__deposit
+*** cbm__daily_quests__claim
+*** cbm__market__completed_sale
+*** cbm__pub__drink_beer
+*** cbm__market__completed_purchase
+*** cbm__pub__sold_beer
+*** cbm__referral__claim
+*** cbm__loot_box__claim
+*** cbm__market__placed_a_sell_order
+*** cbm__daily_quests__start
+*** cbm__craft__claim
+*** cbm__craft__start
+*** cbm__building__restore_condition
+*** cbm__craft__finish_now
+*** cbm__enhancer__claim
+*** cbm__enhancer__start
+*** cbm__daily_quests__finish_now
+*** cbm__backpack__drink_beer
+*** cbm__loot_box__buy
+*** cbm__balance__withdraw
+** hb_*
+*** hb_open_chest
+*** hb_generate_items
+*** hb_create_shopitems
+*** hb_token_transfer
+*** hb_generate_heroes
+*** hb_create_recruit
+*** hb_create_starterhero
+** taverngames
+** chainbb
+Closed now https://steemit.com/chainbb/@jesta/chainbb-com-going-offline
+** steemknights
+3d game on steem blockchain that was changed https://steemit.com/steemknights/@steemknights/undefined-20200916t145320125z-undefined
+** fundition
+** travelfeed
+** leoinfra
+Leo Finance on Hive blokchain
+*** bind
+*** infra
+** waivio
+Attention-based social network
+** exode_*
+*** exode_openpack
+*** exode_newgame
+*** exode_market_transfer
+*** exode_upgrade_card
+*** exode_market_cancel_sell
+*** exode_upgrade_confirmed
+**** exode_upgrade_confirmed
+*** exode_newpacks
+**** exode_newpacks
+** engrave
+** qwoyn
+Blockchain developer
+** complete_sale
+** steem_info
+** save_stats
+** shop_trade
+** *chess*
+*** chess-game
+** get_new_items
+** nothotdog
+????
+** hive_stress_test
+** lensy
+Digital photography marketplace
+** gift-claim
+** processingdone
+** *_custom_website
+*** create_custom_website
+** generate_items
+** distribution
+** dublup-io
+Cryptocurrency betting on world events
+** cancel_sale
+** STEEM.CRAFT
+Steem Minecraft servers
+** reblog
+*** json_list_dict.value_str = reblog
+** sm_*
+*** sm_create_tournament
+*** sm_purchase_land
+*** sm_leave_tournament
+*** sm_open_all
+*** sm_upgrade_account
+Account creation operation?
+*** sm_guild_contribution
+*** sm_price_feed
+*** sm_accept_challenge
+*** sm_external_payment
+*** sm_tournament_checkin
+*** sm_advance_league
+*** sm_update_price
+*** sm_find_match
+*** sm_submit_team
+*** sm_team_reveal
+*** sm_start_quest
+*** sm_claim_reward
+*** sm_token_transfer
+*** sm_sell_cards
+*** sm_gift_cards
+*** sm_purchase_land_lottery
+*** sm_start_match
+*** sm_combine_cards
+*** sm_enter_tournament
+*** sm_surrender
+*** sm_purchase
+*** sm_gift_packs
+*** sm_claim_airdrop
+*** sm_join_guild
+*** sm_purchase_orbs
+*** sm_purchase_dice
+*** sm_add_wallet
+*** sm_purchase_record
+*** sm_combine_all
+*** sm_open_pack
+*** sm_refresh_quest
+*** sm_market_purchase
+*** sm_cancel_sell
+*** sm_delegate_cards
+*** sm_undelegate_cards
+*** sm_burn_cards
+*** sm_cancel_match
+*** sm_purchase_item
+*** ? generate_packs
+*** ? gift_cards
+*** ? end_game/1
+*** ? game_rewards/1
+*** ? generate_starter_pack
+*** ? gift_packs
+*** ? start_mission
+*** ? get_new_missions
+*** test-sm_find_match
+*** test-sm_submit_team
+*** test-sm_team_reveal
+*** test-sm_price_feed
+*** test-sm_cancel_match
+*** dev-sm_price_feed
+*** dev-sm_find_match
+*** dev-sm_submit_team
+*** dev-sm_team_reveal
+*** dev-sm_team_reveal
+*** dev-sm_enter_tournament
+*** ut-sm_price_feed
+*** ut-sm_find_match
+*** ut-sm_submit_team
+*** qa-sm_price_feed
+*** matt-sm_price_feed
+*** sm_assign_fray
+*** sm_api_dump
+*** sm_claim_raffle_prizes
+*** sm_leave_guild
+*** sm_lock_assets
+*** sm_guild_decline
+*** sm_set_authority
+*** sm_convert_cards
+*** sm_update_authority
+*** sm_guild_invite
+*** sm_guild_remove
+*** sm_token_award
+*** sm_card_award
+*** sm_guild_promote
+*** sm_guild_accept
+*** sm_decline_challenge
+*** sm_leave_fray
+*** sm_edit_guild
+*** hive-sm_find_match
+*** hive-*
+** Game Ideas
+*** Chart and predict game marketplace value
+***
+* Plot ideas
+** Posts + Votes + Reblogs + Account creations each month (User engagement)
+** Social media-related blocks vs other blocks
+** Who created the most accounts
+** Communities graph using Gephi (Tags?)
+** Games?
+** Map of json_metadata_dict.location_dict
+** Overall user balances?
+** Votes for witnesses?
+** Follower / User, Follower / Following
